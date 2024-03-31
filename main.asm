@@ -11,9 +11,10 @@ section .data
     msgWin db 'Voce acertou', 0xA
     lenWin equ $ - msgWin
 
+    secretNum dd 0xA
+
 section .bss
     userNum resb 0x3
-    secretNum resb 0x3
 
 
 
@@ -23,8 +24,6 @@ section .text
     _start:
 
     gameLoop:
-        call generateNum
-
         mov eax, 0x4
         mov ebx, 0x1
         mov ecx, msgGuess
@@ -91,17 +90,6 @@ section .text
         int 0x80
 
         jmp finish
-
-    generateNum:
-        mov ah, 0x0
-        int 1ah
-        
-        mov ax, dx
-        mov dx, 0x0
-        mov bx, 0xA
-        div bx
-        mov byte[secretNum], al
-        ret
 
     finish:
         mov eax, 0x1
